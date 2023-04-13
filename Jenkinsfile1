@@ -1,0 +1,24 @@
+pipeline
+{
+    agent any
+    stages
+    {
+        stage('information')
+        {
+            steps
+            {
+                sh 'pack version'
+                sh 'pack report'
+                sh 'env | sort'
+            }
+        }
+        stage('build')
+        {
+            steps
+            {
+                sh 'pack build darinpope/spring-boot-hello-world:${git_commit:0:7} --path . --build gcr.io/buildpacks/cuilder:v1'
+            }
+        }
+        
+    }
+}
